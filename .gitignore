@@ -1,1 +1,3 @@
-*node-modules
+/archive.tar.gz
+/vs-key.pem
+/backend/.env
