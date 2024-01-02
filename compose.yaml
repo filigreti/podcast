@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  nextapp:
+    container_name: nextapp
+    image: nextapp:1.0.0
+    build:
+      context: ./frontend
+      dockerfile: next.dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - goapp
+  db:
+    container_name: GO-PODCAST
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=foodcoy123
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+
+  redis:
+    container_name: GO-PODCAST-REDIS
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+
+  goapp:
+    container_name: GO-PODCAST-APP
+    image: go-podcast-app:1.0.0
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3333:3333"
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  mongodata:
+    driver: local
+  redisdata:
+    driver: local
