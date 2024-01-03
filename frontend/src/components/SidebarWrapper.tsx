@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import MarginWidthWrapper from "./MarginWidthWrapper"
-import PageWrapper from "./PageWrapper"
-import SideNav from "./SideNav"
-import Header from "./headers/Header"
-import HeaderMobile from "./headers/HeaderMobile"
+import MarginWidthWrapper from "./MarginWidthWrapper";
+import PageWrapper from "./PageWrapper";
+import SideNav from "./SideNav";
+import Header from "./headers/Header";
+import HeaderMobile from "./headers/HeaderMobile";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "./ui/resizable"
-import { useRef, useState } from "react"
+} from "./ui/resizable";
+import { useRef, useState } from "react";
 
 const SidebarWrapper = ({
   children,
   defaultLayout = [12, 88],
 }: {
-  children: React.ReactNode
-  defaultLayout: number[]
+  children: React.ReactNode;
+  defaultLayout: number[];
 }) => {
   const onLayout = (sizes: number[]) => {
-    document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`
-  }
-  const [width, setWidth] = useState(12)
-  const panelGroupRef = useRef(null)
+    document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`;
+  };
+  const [width, setWidth] = useState(12);
+  const panelGroupRef = useRef(null);
 
   const handleResize = (size: number) => {
-    setWidth(size)
+    setWidth(size);
     if (size < 9.5) {
       //eslint-disable-next-line @typescript-eslint
-      panelGroupRef.current.resize(3)
+      panelGroupRef.current.resize(3);
     }
-  }
+  };
 
   return (
     <ResizablePanelGroup
@@ -47,7 +47,7 @@ const SidebarWrapper = ({
         minSize={3}
         onResize={handleResize}
       >
-        <SideNav width={width} />
+        <SideNav />
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={defaultLayout[1]}>
@@ -62,7 +62,7 @@ const SidebarWrapper = ({
         </main>
       </ResizablePanel>
     </ResizablePanelGroup>
-  )
-}
+  );
+};
 
-export default SidebarWrapper
+export default SidebarWrapper;

@@ -1,5 +1,5 @@
-import { Icon } from "@iconify/react"
-import { Button } from "../ui/button"
+import { Icon } from "@iconify/react";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +13,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const TopHeader = ({}) => {
   return (
@@ -25,7 +25,7 @@ const TopHeader = ({}) => {
           className=" absolute w-5 h-5 mt-[3px] text-gray-400 ml-4"
         />
         <input
-          autocomplete="off"
+          autoComplete="off"
           id="name"
           placeholder="Search your favorite podcast"
           className=" h-10 w-full pl-12 shadow-sm rounded-sm bg-transparent top-nav-input outline-none !border-transparent !focus:border-transparent !focus:ring-0  text-[0.85rem]  dark:bg-primary card-shadow dark:placeholder:text-gray-500  font-sans font-medium "
@@ -97,7 +97,7 @@ const TopHeader = ({}) => {
         </DropdownMenu>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TopHeader
+export default TopHeader;

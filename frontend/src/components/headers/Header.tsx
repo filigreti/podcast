@@ -1,21 +1,20 @@
-"use client"
+"use client";
 
-import React from "react"
+import React from "react";
 
-import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
+import Link from "next/link";
+import { useSelectedLayoutSegment } from "next/navigation";
 
-import useScroll from "@/hooks/use-scroll"
-import { cn } from "@/lib/utils"
-import TopHeader from "./TopHeader"
+import useScroll from "@/hooks/use-scroll";
+import { cn } from "@/lib/utils";
+import TopHeader from "./TopHeader";
 
-const Header = ({ width }: { width: number }) => {
-  const scrolled = useScroll(5)
-  const selectedLayout = useSelectedLayoutSegment()
-
+const Header = () => {
+  const scrolled = useScroll(5);
+  const selectedLayout = useSelectedLayoutSegment();
+  // style={{ left: `${width}%` }}
   return (
     <div
-      style={{ left: `${width}%` }}
       className={cn(`fixed right-0 top-0 z-30   `, {
         " border-gray-200  bg-primary bg-opacity-20  backdrop-blur-lg":
           scrolled,
@@ -38,7 +37,7 @@ const Header = ({ width }: { width: number }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,25 +1,30 @@
-import SidebarWrapper from "@/components/SidebarWrapper"
-import { cookies } from "next/headers"
+import MarginWidthWrapper from "@/components/MarginWidthWrapper";
+import PageWrapper from "@/components/PageWrapper";
+import SideNav from "@/components/SideNav";
+import SidebarWrapper from "@/components/SidebarWrapper";
+import Header from "@/components/headers/Header";
+import HeaderMobile from "@/components/headers/HeaderMobile";
+import { cookies } from "next/headers";
 
 function getDefaultLayout() {
-  const layout = cookies().get("react-resizable-panels:layout")
-  console.log("layout", layout)
+  const layout = cookies().get("react-resizable-panels:layout");
+  console.log("layout", layout);
   if (layout) {
-    return JSON.parse(layout.value)
+    return JSON.parse(layout.value);
   }
-  return [12, 88]
+  return [12, 88];
 }
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const defaultLayout = getDefaultLayout()
+  const defaultLayout = getDefaultLayout();
 
   return (
     <>
-      {/* <section className=" text-white">
+      <section className=" text-white">
         <div className="flex ">
           <SideNav />
           <main className="flex-1">
@@ -30,9 +35,9 @@ export default function DashboardLayout({
             </MarginWidthWrapper>
           </main>
         </div>
-      </section> */}
+      </section>
 
-      <SidebarWrapper defaultLayout={defaultLayout}>{children}</SidebarWrapper>
+      {/* <SidebarWrapper defaultLayout={defaultLayout}>{children}</SidebarWrapper> */}
     </>
-  )
+  );
 }
