@@ -36,10 +36,11 @@ const SidebarWrapper = ({
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="w-full rounded-lg border text-white"
+      className="w-full rounded-lg border text-white "
       onLayout={onLayout}
     >
       <ResizablePanel
+        className="hidden md:block"
         ref={panelGroupRef}
         defaultSize={defaultLayout[0]}
         maxSize={12}
@@ -52,9 +53,11 @@ const SidebarWrapper = ({
       <ResizablePanel defaultSize={defaultLayout[1]}>
         <main className="flex-1">
           <MarginWidthWrapper>
-            <Header />
+            <Header width={width} />
             <HeaderMobile />
-            <PageWrapper>{children}</PageWrapper>
+            <PageWrapper>
+              <main className="mt-16">{children}</main>
+            </PageWrapper>
           </MarginWidthWrapper>
         </main>
       </ResizablePanel>

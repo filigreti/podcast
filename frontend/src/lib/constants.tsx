@@ -9,7 +9,7 @@ export const SIDE_NAV_ITEMS: SidebarNavItem[] = [
   {
     title: "Trending",
     path: "/dashboard/trending",
-    icon: "lucide:zap",
+    icon: "solar:bolt-bold-duotone",
   },
   {
     title: "Streaming",

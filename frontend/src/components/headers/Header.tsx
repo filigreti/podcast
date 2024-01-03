@@ -7,19 +7,22 @@ import { useSelectedLayoutSegment } from "next/navigation"
 
 import useScroll from "@/hooks/use-scroll"
 import { cn } from "@/lib/utils"
+import TopHeader from "./TopHeader"
 
-const Header = () => {
+const Header = ({ width }: { width: number }) => {
   const scrolled = useScroll(5)
   const selectedLayout = useSelectedLayoutSegment()
 
   return (
     <div
-      className={cn(`sticky inset-x-0 top-0 z-30 w-full transition-all `, {
-        " border-gray-200  backdrop-blur-lg": scrolled,
+      style={{ left: `${width}%` }}
+      className={cn(`fixed right-0 top-0 z-30   `, {
+        " border-gray-200  bg-primary bg-opacity-20  backdrop-blur-lg":
+          scrolled,
         " border-gray-200 ": selectedLayout,
       })}
     >
-      <div className="flex h-[47px] items-center justify-between px-4">
+      <div className="flex h-[3.75rem]  items-center w-full ">
         <div className="flex items-center space-x-4">
           <Link
             href="/"
@@ -29,12 +32,9 @@ const Header = () => {
               Poddi
             </div>
           </Link>
-          <div className="">wakanda</div>
         </div>
-        <div className="hidden md:block">
-          <div className="h-8 w-8 rounded-full bg-zinc-300 flex items-center justify-center text-center">
-            <span className="font-semibold text-sm">HQ</span>
-          </div>
+        <div className="flex space-x-4 w-full px-4 ">
+          <TopHeader />
         </div>
       </div>
     </div>

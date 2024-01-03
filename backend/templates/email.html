@@ -1,75 +1,178 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email Verification</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-
-      .container {
-        max-width: 600px;
-        margin: 50px auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-        color: #333333;
-        font-size: 15px;
-      }
-
-      p {
-        color: #555555;
-        font-size: 14px;
-      }
-
-      .verification-link {
-        background-color: #3498db;
-        color: #ffffff !important;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 4px;
-        display: inline-block;
-      }
-
-      .footer {
-        margin-top: 30px;
-        text-align: center;
-        color: #888888;
-      }
-
-      .footer p {
-        font-size: 13px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>PODDI Email Verification</h1>
-      <p>
-        Thank you for signing up! To complete your registration, please click
-        the link below:
-      </p>
-      <a
-        href="{{ .VerificationLink }}"
-        class="verification-link"
-        target="_blank"
-        >Verify Email</a
-      >
-      <p>
-        If you didn't sign up for our service, you can safely ignore this email.
-      </p>
-      <div class="footer">
-        <p>This is an automated message. Please do not reply to this email.</p>
-      </div>
+  <head></head>
+  <div
+    id="__react-email-preview"
+    style="
+      display: none;
+      overflow: hidden;
+      line-height: 1px;
+      opacity: 0;
+      max-height: 0;
+      max-width: 0;
+    "
+  >
+    Your Poddi Email Verification
+    <div>
+       ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿
     </div>
+  </div>
+
+  <body
+    style="
+      background-color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    "
+  >
+    <table
+      align="center"
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+      style="
+        max-width: 37.5em;
+        margin: 0 auto;
+        padding: 20px 0 48px;
+        width: 560px;
+      "
+    >
+      <tr style="width: 100%">
+        <td>
+          <img
+            alt="Linear"
+            src="https://res.cloudinary.com/aolfiligre/image/upload/v1704274774/podcastaddict_2.svg"
+            width="52"
+            height="52"
+            style="
+              display: block;
+              outline: none;
+              border: none;
+              text-decoration: none;
+              border-radius: 21px;
+              width: 42px;
+              height: 42px;
+            "
+          />
+          <h1
+            style="
+              font-size: 24px;
+              letter-spacing: -0.5px;
+              line-height: 1.3;
+              font-weight: 400;
+              color: #484848;
+              padding: 17px 0 0;
+            "
+          >
+            Poddi Email Verification
+          </h1>
+          <table
+            style="padding: 27px 0 27px"
+            align="center"
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            role="presentation"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td>
+                  <a
+                    href="{{ .VerificationLink }}"
+                    target="_blank"
+                    style="
+                      background-color: #5e6ad2;
+                      border-radius: 3px;
+                      font-weight: 600;
+                      color: #fff;
+                      font-size: 15px;
+                      text-decoration: none;
+                      text-align: center;
+                      display: inline-block;
+                      p-x: 23px;
+                      p-y: 11px;
+                      line-height: 100%;
+                      max-width: 100%;
+                      padding: 11px 23px;
+                    "
+                    ><span
+                      ><!--[if mso
+                        ]><i
+                          style="
+                            letter-spacing: 23px;
+                            mso-font-width: -100%;
+                            mso-text-raise: 16.5;
+                          "
+                          hidden
+                          >&nbsp;</i
+                        ><!
+                      [endif]--></span
+                    ><span
+                      style="
+                        background-color: #5e6ad2;
+                        border-radius: 3px;
+                        font-weight: 600;
+                        color: #fff;
+                        font-size: 15px;
+                        text-decoration: none;
+                        text-align: center;
+                        display: inline-block;
+                        p-x: 23px;
+                        p-y: 11px;
+                        max-width: 100%;
+                        line-height: 120%;
+                        text-transform: none;
+                        mso-padding-alt: 0px;
+                        mso-text-raise: 8.25px;
+                      "
+                      >Verify Email</span
+                    ><span
+                      ><!--[if mso
+                        ]><i
+                          style="letter-spacing: 23px; mso-font-width: -100%"
+                          hidden
+                          >&nbsp;</i
+                        ><!
+                      [endif]--></span
+                    ></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p
+            style="
+              font-size: 15px;
+              line-height: 1.4;
+              margin: 0 0 15px;
+              color: #3c4149;
+            "
+          >
+            This link will only be valid for 24 hours. If the link does not
+            work, you can try logging in to generate another.
+          </p>
+
+          <hr
+            style="
+              width: 100%;
+              border: none;
+              border-top: 1px solid #eaeaea;
+              border-color: #dfe1e4;
+              margin: 42px 0 26px;
+            "
+          />
+          <a
+            target="_blank"
+            style="color: #b4becc; text-decoration: none; font-size: 14px"
+            href="https://linear.app"
+            >Poddi</a
+          >
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

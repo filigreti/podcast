@@ -88,7 +88,7 @@ const Register = () => {
                 {
                   "focus-visible:ring-red-500 mt-1": errors.email,
                 },
-                `h-12 dark:bg-transparent card-shadow dark:placeholder:text-gray-500  font-sans font-medium `
+                `h-12 dark:bg-transparent card-shadow dark:older:text-gray-500  font-sans font-medium `
               )}
             />
             {errors?.email && (
