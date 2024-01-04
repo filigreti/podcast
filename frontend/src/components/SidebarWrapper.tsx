@@ -17,7 +17,7 @@ const SidebarWrapper = ({
     <section className=" text-white">
       <div className="flex ">
         <SideNav size={number} />
-        <main className="flex-1">
+        <main className="flex-1 min-[1400px]:container">
           <MarginWidthWrapper>
             <Header width={number} />
             <HeaderMobile />

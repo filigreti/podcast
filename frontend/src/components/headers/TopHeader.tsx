@@ -18,8 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const TopHeader = ({}) => {
   return (
-    <div className=" w-full   grid grid-cols-[3fr_1.3fr] gap-5 text-white  ">
-      <div className="flex items-center relative">
+    <div className=" w-full   md:grid md:grid-cols-[3fr_1.3fr] md:gap-5 text-white  ">
+      <div className="flex items-center md:relative md:w-full w-[65%] mx-auto">
         <Icon
           icon="healthicons:magnifying-glass"
           className=" absolute w-5 h-5 mt-[3px] text-gray-400 ml-4"
@@ -31,9 +31,9 @@ const TopHeader = ({}) => {
           className=" h-10 w-full pl-12 shadow-sm rounded-sm bg-transparent top-nav-input outline-none !border-transparent !focus:border-transparent !focus:ring-0  text-[0.85rem]  dark:bg-primary card-shadow dark:placeholder:text-gray-500  font-sans font-medium "
         />
       </div>
-      <div className="flex justify-between">
+      <div className="md:flex justify-between hidden">
         <Button
-          className=" flex items-center bg-primary shadow-sm border-transparent  card-shadow"
+          className="max-[1180px]:hidden flex items-center bg-primary shadow-sm border-transparent  card-shadow"
           variant="outline"
           size="icon"
         >
@@ -43,7 +43,7 @@ const TopHeader = ({}) => {
           />
         </Button>
         <Button
-          className=" flex items-center bg-primary shadow-sm border-transparent  card-shadow"
+          className="max-[1025px]:hidden flex items-center bg-primary shadow-sm border-transparent  card-shadow"
           variant="outline"
           size="icon"
         >

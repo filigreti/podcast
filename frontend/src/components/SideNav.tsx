@@ -49,7 +49,6 @@ const SideNav = ({ size }: { size: number }) => {
       className={cn(
         `bg-secondary-foreground h-screen flex-1 fixed border-zinc-200 hidden md:flex `
       )}
-      animate={controls}
     >
       <div className="flex flex-col space-y-6 w-full">
         <div className="border-b border-zinc-50 border-opacity-10 flex items-center justify-between h-[3.5rem]">
