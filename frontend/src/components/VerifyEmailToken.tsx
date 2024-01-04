@@ -1,24 +1,20 @@
-import { CrossCircledIcon, EnvelopeClosedIcon } from "@radix-ui/react-icons"
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import { CirclesWithBar } from "react-loader-spinner"
-import { Button } from "./ui/button"
+import { CrossCircledIcon, EnvelopeClosedIcon } from "@radix-ui/react-icons";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { CirclesWithBar } from "react-loader-spinner";
+import { Button } from "./ui/button";
 
 const VerifyEmailToken = ({ token }: { token: string }) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["verify-email", token],
     queryFn: async () => {
-      const res = await axios.get(`/api/auth/verify-email?token=${token}`)
-      console.log(res, "dhata")
-      return res.data
+      const res = await axios.get(`/api/auth/verify-email?token=${token}`);
+      return res.data;
     },
-  })
-
-  console.log(data, "data check")
-  console.log(isError, "errors check")
+  });
 
   if (isLoading) {
     return (
@@ -36,7 +32,7 @@ const VerifyEmailToken = ({ token }: { token: string }) => {
           visible={true}
         />
       </div>
-    )
+    );
   }
 
   if (isError) {
@@ -57,7 +53,7 @@ const VerifyEmailToken = ({ token }: { token: string }) => {
           again
         </p>
       </div>
-    )
+    );
   }
 
   if (data) {
@@ -76,7 +72,7 @@ const VerifyEmailToken = ({ token }: { token: string }) => {
         <div className="flex item-center justify-center">
           <Button
             onClick={() => {
-              router.push("/login")
+              router.push("/login");
             }}
             className=" text-center font-sans px-8 dark:bg-white dark:text-black dark:hover:bg-transparent dark:hover:border-white dark:hover:border-[1px] dark:hover:text-white h-12 "
             variant="default"
@@ -85,8 +81,8 @@ const VerifyEmailToken = ({ token }: { token: string }) => {
           </Button>
         </div>
       </div>
-    )
+    );
   }
-}
+};
 
-export default VerifyEmailToken
+export default VerifyEmailToken;

@@ -22,7 +22,7 @@ const Header = ({ width }: { width: Number }) => {
             scrolled,
           " border-gray-200 ": selectedLayout,
         },
-        width == 10 ? "ml-[10.5rem]" : "ml-[3.5rem]"
+        width == 10 ? "md:ml-[10.5rem]" : "md:ml-[3.5rem]"
       )}
     >
       <div className="flex h-[3.75rem]  items-center w-full ">

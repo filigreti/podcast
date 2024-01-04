@@ -1,10 +1,14 @@
-import MarginWidthWrapper from "@/components/MarginWidthWrapper";
-import PageWrapper from "@/components/PageWrapper";
-import SideNav from "@/components/SideNav";
-import SidebarWrapper from "@/components/SidebarWrapper";
-import Header from "@/components/headers/Header";
-import HeaderMobile from "@/components/headers/HeaderMobile";
 import { cookies } from "next/headers";
+import dynamic from "next/dynamic";
+import PageLoader from "@/components/PageLoader";
+
+const SidebarWrapper = dynamic(
+  () => import("../../components/SidebarWrapper"),
+  {
+    loading: () => <PageLoader />,
+    ssr: false,
+  }
+);
 
 export default function DashboardLayout({
   children,
@@ -19,10 +23,10 @@ export default function DashboardLayout({
   } else {
     number = 10;
   }
-  console.log(width?.value);
+
   return (
     <>
-      <section className=" text-white">
+      {/* <section className=" text-white">
         <div className="flex ">
           <SideNav size={number} />
           <main className="flex-1">
@@ -33,9 +37,9 @@ export default function DashboardLayout({
             </MarginWidthWrapper>
           </main>
         </div>
-      </section>
+      </section> */}
 
-      {/* <SidebarWrapper defaultLayout={defaultLayout}>{children}</SidebarWrapper> */}
+      <SidebarWrapper number={number}>{children}</SidebarWrapper>
     </>
   );
 }
