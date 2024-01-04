@@ -1,6 +1,5 @@
 export type SidebarNavItem = {
-  title: string
-  path: string
-  icon: string
-  iconClassName?: string
-}
+  title: string;
+  path: string;
+  icon: React.ReactNode;
+};

@@ -6,30 +6,28 @@ import Header from "@/components/headers/Header";
 import HeaderMobile from "@/components/headers/HeaderMobile";
 import { cookies } from "next/headers";
 
-function getDefaultLayout() {
-  const layout = cookies().get("react-resizable-panels:layout");
-  console.log("layout", layout);
-  if (layout) {
-    return JSON.parse(layout.value);
-  }
-  return [12, 88];
-}
-
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const defaultLayout = getDefaultLayout();
-
+  const cookieStore = cookies();
+  const width = cookieStore.get("sidebar-nav");
+  let number;
+  if (width?.value) {
+    number = parseInt(width.value);
+  } else {
+    number = 10;
+  }
+  console.log(width?.value);
   return (
     <>
       <section className=" text-white">
         <div className="flex ">
-          <SideNav />
+          <SideNav size={number} />
           <main className="flex-1">
             <MarginWidthWrapper>
-              <Header />
+              <Header width={number} />
               <HeaderMobile />
               <PageWrapper>{children}</PageWrapper>
             </MarginWidthWrapper>
