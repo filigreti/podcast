@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@/lib/utils";
 import MarginWidthWrapper from "./MarginWidthWrapper";
 import PageWrapper from "./PageWrapper";
 import SideNav from "./SideNav";
@@ -20,7 +21,15 @@ const SidebarWrapper = ({
           <MarginWidthWrapper>
             <Header width={number} />
             <HeaderMobile />
-            <PageWrapper>{children}</PageWrapper>
+            <PageWrapper>
+              <main
+                className={cn(
+                  number == 10 ? "md:ml-[10.5rem]" : "md:ml-[3.5rem]"
+                )}
+              >
+                {children}
+              </main>
+            </PageWrapper>
           </MarginWidthWrapper>
         </main>
       </div>

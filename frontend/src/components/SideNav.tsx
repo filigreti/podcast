@@ -14,55 +14,13 @@ import {
 } from "@/components/ui/tooltip";
 import { getCookie } from "cookies-next";
 import { setCookie } from "@/app/dashboard/actions";
+import { motion, useAnimation } from "framer-motion";
 
-const MenuItem = ({ item, width }: { item: SidebarNavItem; width: string }) => {
-  const pathname = usePathname();
-
-  return (
-    <div className={cn(`${item.path === pathname ? "halo" : ""}`)}>
-      <Link
-        href={item.path}
-        className={`flex flex-row space-x-2 items-center p-2 rounded-lg`}
-      >
-        {/* className={cn(width > 9.5 && " pointer-events-none")} */}
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <div
-                className={cn(
-                  item.path === pathname && "!bg-blue-600",
-                  `h-7 w-7 rounded-sm flex items-center justify-center bg-background`
-                )}
-              >
-                {typeof item.icon === "string" ? (
-                  <Icon icon={item.icon} className="text-gray-100 h-3 w-3" />
-                ) : (
-                  React.cloneElement(item.icon as React.ReactElement, {
-                    className: "text-gray-100 h-3 w-3",
-                  })
-                )}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent
-              side="right"
-              sideOffset={-2}
-              className="text-white bg-[#2D2D34]"
-            >
-              <p>{item.title}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        {width === "10" && (
-          <span className="font-semibold text-xs flex">{item.title}</span>
-        )}
-      </Link>
-    </div>
-  );
-};
 const SideNav = ({ size }: { size: number }) => {
   const cookieName = "sidebar-nav";
   const [width, setWidth] = useState<string>("");
   const initialWidthRef = useRef<string>("");
+  const controls = useAnimation();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,14 +40,16 @@ const SideNav = ({ size }: { size: number }) => {
     const newWidth = width === "3" ? "10" : "3";
     setWidth(newWidth);
     setCookie(cookieName, newWidth);
+    controls.start({ width: `${size || newWidth}rem` });
   };
 
   return (
-    <div
+    <motion.div
       style={{ width: `${size || width}rem` }}
       className={cn(
         `bg-secondary-foreground h-screen flex-1 fixed border-zinc-200 hidden md:flex `
       )}
+      animate={controls}
     >
       <div className="flex flex-col space-y-6 w-full">
         <div className="border-b border-zinc-50 border-opacity-10 flex items-center justify-between h-[3.5rem]">
@@ -123,6 +83,52 @@ const SideNav = ({ size }: { size: number }) => {
           ))}
         </div>
       </div>
+    </motion.div>
+  );
+};
+
+const MenuItem = ({ item, width }: { item: SidebarNavItem; width: string }) => {
+  const pathname = usePathname();
+
+  return (
+    <div className={cn(`${item.path === pathname ? "halo" : ""}`)}>
+      <Link
+        href={item.path}
+        className={`flex flex-row space-x-2 items-center p-2 rounded-lg`}
+      >
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              className={cn(width == "10" && " pointer-events-none")}
+            >
+              <div
+                className={cn(
+                  item.path === pathname && "!bg-blue-600",
+                  `h-7 w-7 rounded-sm flex items-center justify-center bg-background`
+                )}
+              >
+                {typeof item.icon === "string" ? (
+                  <Icon icon={item.icon} className="text-gray-100 h-3 w-3" />
+                ) : (
+                  React.cloneElement(item.icon as React.ReactElement, {
+                    className: "text-gray-100 h-3 w-3",
+                  })
+                )}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent
+              side="right"
+              sideOffset={-2}
+              className="text-white bg-[#2D2D34]"
+            >
+              <p>{item.title}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        {width === "10" && (
+          <span className="font-semibold text-xs flex">{item.title}</span>
+        )}
+      </Link>
     </div>
   );
 };
