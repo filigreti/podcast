@@ -175,3 +175,20 @@
     rgba(31, 71, 126, 1) 100%
   );
 }
+
+@keyframes filling {
+  from {
+    background-position: center 25%;
+  }
+  to {
+    background-position: center 50%;
+  }
+}
+
+.container-text {
+  background-image: url(https://cdn.gencraft.com/prod/user/d4e50dbb-c33b-41e2-99d9-dcf3fd0e30a8/6e07f88f-d5e4-480e-a90b-0901a8db1527/images/image1_1024_1024.jpg?Expires=1711670410&Signature=f6kHiBBNSw2M5qV5m7xquXbmj0VJ8lP--TPHa77DTIuoAuFCIF4ZMVAKI2ea7P~kx6fspYo9Pdzy04dcSH6J2fVjJJL~tD4eFV7oFKTMgRJGGHOX73ILhQlbhVutSlPEAabYoXMioQDbInE3tZNAMqdL8oH6fDqipWcehagFV4JzAtbpdp4MJq0cfc7jQtmZ~6WmE7immVxbmr2pOSra04VKJrR1aTbkgaYJFyRqT6weD7UfvfK7JfKjrOIyc5h8~oM2c8tAsxPpSnix6g856vlGf~gfoRnLHCF~7DjZKcqLfbJLmL4aZqpgIIXg~JHTkCPJJe5vfvlRQi4nl90d3g__&Key-Pair-Id=K3RDDB1TZ8BHT8);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  color: #ffffff;
+  animation: filling 3s ease forwards;
+}

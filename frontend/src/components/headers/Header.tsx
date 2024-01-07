@@ -9,13 +9,17 @@ import useScroll from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import TopHeader from "./TopHeader";
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
+import { useBreakpoint } from "@/hooks/use-breakpoints";
 
 const Header = ({ width }: { width: Number }) => {
   const scrolled = useScroll(5);
   const selectedLayout = useSelectedLayoutSegment();
+  let breakpoint = useBreakpoint();
+  const threshold = breakpoint === null || breakpoint === "sm";
 
   return (
-    <div
+    <motion.div
       className={cn(
         `sticky right-0 top-0 z-30   `,
         {
@@ -25,6 +29,11 @@ const Header = ({ width }: { width: Number }) => {
         },
         width == 10 ? "md:ml-[10.5rem]" : "md:ml-[3.5rem]"
       )}
+      initial={{ marginLeft: "10.5rem" }}
+      animate={{
+        marginLeft: threshold ? 0 : width === 10 ? "10.5rem" : "3.5rem",
+      }}
+      transition={{ duration: 0.25, ease: [0.45, 0, 0.55, 1] }}
     >
       <div className="flex h-[3.75rem] md:justify-start justify-center   items-center w-full ">
         <div className="flex items-center space-x-4">
@@ -44,7 +53,7 @@ const Header = ({ width }: { width: Number }) => {
           <TopHeader />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

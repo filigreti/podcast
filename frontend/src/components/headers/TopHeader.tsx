@@ -18,8 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const TopHeader = ({}) => {
   return (
-    <div className=" w-full   md:grid md:grid-cols-[3fr_1.3fr] md:gap-5 text-white  ">
-      <div className="flex items-center md:relative md:w-full w-[65%] mx-auto">
+    <div className=" w-full   md:grid md:grid-cols-[4fr_1.5fr] 2xl:grid-cols-11 md:gap-5 text-white  ">
+      <div className="flex items-center md:relative md:w-full w-[65%] mx-auto 2xl:col-span-8">
         <Icon
           icon="healthicons:magnifying-glass"
           className=" absolute w-5 h-5 mt-[3px] text-gray-400 ml-4"
@@ -31,9 +31,9 @@ const TopHeader = ({}) => {
           className=" h-10 w-full pl-12 shadow-sm rounded-sm bg-transparent top-nav-input outline-none !border-transparent !focus:border-transparent !focus:ring-0  text-[0.85rem]  dark:bg-primary card-shadow dark:placeholder:text-gray-500  font-sans font-medium "
         />
       </div>
-      <div className="md:flex justify-between hidden">
+      <div className="md:flex justify-between hidden 2xl:col-span-3">
         <Button
-          className="max-[1180px]:hidden flex items-center bg-primary shadow-sm border-transparent  card-shadow"
+          className="max-[1400px]:hidden flex items-center bg-primary shadow-sm border-transparent  card-shadow"
           variant="outline"
           size="icon"
         >
@@ -43,7 +43,7 @@ const TopHeader = ({}) => {
           />
         </Button>
         <Button
-          className="max-[1025px]:hidden flex items-center bg-primary shadow-sm border-transparent  card-shadow"
+          className="max-[1180px]:hidden flex items-center bg-primary shadow-sm border-transparent  card-shadow"
           variant="outline"
           size="icon"
         >
@@ -59,7 +59,7 @@ const TopHeader = ({}) => {
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className=" flex items-center justify-between bg-primary shadow-sm border-transparent  card-shadow gap-6 ">
+            <Button className=" flex items-center justify-between bg-primary shadow-sm border-transparent  card-shadow gap-10 ">
               <div className="flex items-center">
                 <Avatar className=" text-white card-shadow h-8 w-8 p-[1px]">
                   <AvatarImage src="https://github.com/shadcn.png" />

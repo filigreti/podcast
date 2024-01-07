@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 import PageLoader from "@/components/PageLoader";
+import { BreakpointProvider } from "@/providers/BreakpointProvider";
 
 const SidebarWrapper = dynamic(
   () => import("../../components/SidebarWrapper"),
@@ -38,8 +39,9 @@ export default function DashboardLayout({
           </main>
         </div>
       </section> */}
-
-      <SidebarWrapper number={number}>{children}</SidebarWrapper>
+      <BreakpointProvider>
+        <SidebarWrapper number={number}>{children}</SidebarWrapper>
+      </BreakpointProvider>
     </>
   );
 }

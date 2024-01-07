@@ -25,14 +25,14 @@ const SideNav = ({ size }: { size: number }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const validCookie = getCookie(cookieName);
-
       initialWidthRef.current = validCookie || "10";
 
       setTimeout(() => {
         setWidth(initialWidthRef.current);
+        controls.start({ width: `${size || initialWidthRef.current}rem` });
       }, 50);
     }
-  }, []);
+  }, [controls, size]);
 
   let [isPending, startTransition] = useTransition();
 
@@ -49,6 +49,12 @@ const SideNav = ({ size }: { size: number }) => {
       className={cn(
         `bg-secondary-foreground h-screen flex-1 fixed border-zinc-200 hidden md:flex `
       )}
+      animate={controls}
+      variants={{
+        expanded: { width: "10rem" },
+      }}
+      transition={{ duration: 0.3 }}
+      layout
     >
       <div className="flex flex-col space-y-6 w-full">
         <div className="border-b border-zinc-50 border-opacity-10 flex items-center justify-between h-[3.5rem]">
@@ -88,9 +94,15 @@ const SideNav = ({ size }: { size: number }) => {
 
 const MenuItem = ({ item, width }: { item: SidebarNavItem; width: string }) => {
   const pathname = usePathname();
+  const controls = useAnimation();
 
   return (
-    <div className={cn(`${item.path === pathname ? "halo" : ""}`)}>
+    <motion.div
+      className={cn(`${item.path === pathname ? "halo" : ""}`)}
+      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 10 }}
+      transition={{ staggerChildren: 0.1, when: "beforeChildren" }}
+    >
       <Link
         href={item.path}
         className={`flex flex-row space-x-2 items-center p-2 rounded-lg`}
@@ -125,10 +137,17 @@ const MenuItem = ({ item, width }: { item: SidebarNavItem; width: string }) => {
           </Tooltip>
         </TooltipProvider>
         {width === "10" && (
-          <span className="font-semibold text-xs flex">{item.title}</span>
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="font-semibold text-xs flex"
+          >
+            {item.title}
+          </motion.span>
         )}
       </Link>
-    </div>
+    </motion.div>
   );
 };
 
