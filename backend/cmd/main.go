@@ -19,6 +19,7 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 	routes.UserRoute(e)
+	routes.PodcastRoute(e)
 	e.Logger.Fatal(e.Start(configs.GetEnv("BASE_URL")))
 
 }

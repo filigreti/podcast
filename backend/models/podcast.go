@@ -1,35 +1,41 @@
 package models
 
 import (
+	"mime/multipart"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type CoverArtUpload struct {
+	FileHeader *multipart.FileHeader `form:"coverArtUpload" validate:"required"`
+}
 // Podcast represents information about a podcast.
 type Podcast struct {
 	ID             primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	Title          string             `bson:"title" json:"title"`
+	Title          string             `bson:"title" json:"title" validate:"required"`
 	Description    string             `bson:"description" json:"description"`
-	CoverArtURL    string             `bson:"coverArtURL" json:"coverArtURL"`
+	CoverArtURL    string             `bson:"coverArtURL" json:"coverArtURL" validate:"url"`
 	Author         string             `bson:"author" json:"author"`
-	CreatorID      primitive.ObjectID `bson:"creatorID" json:"creatorID"`           // ID of the user who created the podcast
-	GenreID        primitive.ObjectID `bson:"genreID" json:"genreID"`               // ID of the genre associated with the podcast
-	Ratings        []Rating           `bson:"ratings" json:"ratings"`               // Ratings associated with the podcast
-	LiveSessionID  string             `bson:"liveSessionID" json:"liveSessionID"`   // ID of the live session associated with the podcast
-	LiveStreamURL  string             `bson:"liveStreamURL" json:"liveStreamURL"`   // URL for live streaming, if applicable
-	CurrentViewers int                `bson:"currentViewers" json:"currentViewers"` // Number of current viewers in the live session
+	CreatorID      primitive.ObjectID `bson:"creatorID" json:"creatorID"`
+	CategoryID     primitive.ObjectID `bson:"categoryID" json:"categoryID"`
+	Ratings        []Rating           `bson:"ratings" json:"ratings"`
+	LiveSessionID  string             `bson:"liveSessionID" json:"liveSessionID"`
+	LiveStreamURL  string             `bson:"liveStreamURL" json:"liveStreamURL"`
+	CurrentViewers int                `bson:"currentViewers" json:"currentViewers"`
+	EpisodeIDs     []primitive.ObjectID `bson:"episodeIDs" json:"episodeIDs"`
+	Tags		   []string           `bson:"tags" json:"tags"`
 }
 
 // Episode represents information about a podcast episode.
 type Episode struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	PodcastID   primitive.ObjectID `bson:"podcastID" json:"podcastID"`
-	Title       string             `bson:"title" json:"title"`
+	Title       string             `bson:"title" json:"title" validate:"required"`
 	Description string             `bson:"description" json:"description"`
-	AudioURL    string             `bson:"audioURL" json:"audioURL"`
-	ReleaseDate time.Time          `bson:"releaseDate" json:"releaseDate"`
-	Duration    time.Duration      `bson:"duration" json:"duration"`
+	AudioURL    string             `bson:"audioURL" json:"audioURL" validate:"url"`
+	ReleaseDate time.Time          `bson:"releaseDate" json:"releaseDate" format:"2006-01-02"`
+	Duration    time.Duration      `bson:"duration" json:"duration" unit:"seconds"`
 }
 
 // Subscription represents a user's subscription to a podcast.
@@ -45,7 +51,7 @@ type Comment struct {
 	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	UserID    primitive.ObjectID `bson:"userID" json:"userID"`
 	EpisodeID primitive.ObjectID `bson:"episodeID" json:"episodeID"`
-	Text      string             `bson:"text" json:"text"`
+	Text      string             `bson:"text" json:"text" validate:"required"`
 	CreatedAt time.Time          `bson:"createdAt" json:"createdAt"`
 }
 
@@ -58,7 +64,7 @@ type Rating struct {
 }
 
 // Genre represents a podcast genre or category.
-type Genre struct {
+type Category struct {
 	ID   primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	Name string             `bson:"name" json:"name"`
 }

@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { Toaster } from "@/components/ui/sonner";
+import NextAuthProvider from "@/providers/NextAuthProvider";
 
 const lombok = localFont({
   src: "../../assets/fonts/loominaire-regular.ttf",
@@ -40,8 +41,10 @@ export default function RootLayout({
       lang="en"
     >
       <body>
-        <TanstackProvider>{children}</TanstackProvider>
-        <Toaster richColors className="z-50" />
+        <NextAuthProvider>
+          <TanstackProvider>{children}</TanstackProvider>
+          <Toaster richColors className="z-50" />
+        </NextAuthProvider>
       </body>
     </html>
   );

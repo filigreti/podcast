@@ -17,4 +17,14 @@ func UserRoute(e *echo.Echo) {
 	e.GET("/user", controllers.GetUser, middleware.TokenMiddleware)
 	e.GET("/verify-email/:token", controllers.VerifyEmail)
 	e.POST("/send-verification-email", controllers.SendVerificationEmail)
+	e.POST("/refresh-token", controllers.TokenRefresh)
+
+}
+
+func PodcastRoute(e *echo.Echo) {
+	podcastGroup := e.Group("/podcast")
+	podcastGroup.Use(middleware.TokenMiddleware)
+	podcastGroup.GET("/categories", controllers.GetCategories)
+	podcastGroup.POST("/create-podcast", controllers.CreatePodcastHandler)
+
 }

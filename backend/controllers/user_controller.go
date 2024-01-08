@@ -43,26 +43,26 @@ func CreateUser(c echo.Context) error {
 	defer cancel()
 
 	if err := c.Bind(&user); err != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: err.Error()})
 	}
 
 	if validationErr := validate.Struct(&user); validationErr != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": validationErr.Error()}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: validationErr.Error()})
 	}
 
 	existingUser := models.User{}
 	err := userCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&existingUser)
 	if err == nil {
 		// Email already exists, return an error
-		return c.JSON(http.StatusConflict, responses.UserResponse{Status: http.StatusConflict, Message: "Email already exists", Data: &echo.Map{"data": "Email already exists"}})
+		return c.JSON(http.StatusConflict, responses.ErrorResponse{Status: http.StatusConflict, Message: "Email already exists", Error: "Email already exists"})
 	} else if err != mongo.ErrNoDocuments {
 		// Some other error occurred
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	newUser := models.User{
@@ -74,18 +74,18 @@ func CreateUser(c echo.Context) error {
 	result, err := userCollection.InsertOne(ctx, newUser)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
-	verificationToken, err := generateVerificationToken()
+	verificationToken, err := GenerateVerificationToken()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
-	err = sendVerificationEmailFunc(newUser.Email, newUser.Username, verificationToken)
+	err = SendVerificationEmailFunc(newUser.Email, newUser.Username, verificationToken)
 	if err != nil {
 		fmt.Println("herror:", err)
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	responseData := &echo.Map{"data": result, "emailSent": true}
@@ -99,20 +99,19 @@ func GetUser(c echo.Context) error {
 
 	// Retrieve the user ID from the context set by the token middleware
 	userID, ok := c.Get("user").(string)
-	println("User ID, why now: ", userID)
 	if !ok {
-		return c.JSON(http.StatusUnauthorized, responses.UserResponse{Status: http.StatusUnauthorized, Message: "error", Data: &echo.Map{"data": "User ID not found in context"}})
+		return c.JSON(http.StatusUnauthorized, responses.ErrorResponse{Status: http.StatusUnauthorized, Message: "error", Error: "User ID not found in context"})
 	}
 
 	objID, err := primitive.ObjectIDFromHex(userID)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": "Invalid user ID format"}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: "Invalid user ID format"})
 	}
 
 	var user models.User
 	err = userCollection.FindOne(ctx, bson.M{"_id": objID}).Decode(&user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 	userMap := echo.Map{
 		"id":       user.Id,
@@ -127,16 +126,16 @@ func SendVerificationEmail(c echo.Context) error {
 	var user models.VerifyUser
 
 	if err := c.Bind(&user); err != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: err.Error()})
 	}
 
 	if validationErr := validate.Struct(&user); validationErr != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": validationErr.Error()}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: validationErr.Error()})
 	}
 
-	err := sendVerificationEmailFunc(user.Email, user.Username, "")
+	err := SendVerificationEmailFunc(user.Email, user.Username, "")
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 	return c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &echo.Map{"data": "Email sent successfully"}})
 
@@ -148,11 +147,11 @@ func UserLogin(c echo.Context) error {
 	var loginData models.Login
 
 	if err := c.Bind(&loginData); err != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: err.Error()})
 	}
 
 	if validationErr := validate.Struct(loginData); validationErr != nil {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": validationErr.Error()}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: validationErr.Error()})
 	}
 
 	// Find the user by email
@@ -160,9 +159,9 @@ func UserLogin(c echo.Context) error {
 	err := userCollection.FindOne(ctx, bson.M{"email": loginData.Email}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return c.JSON(http.StatusUnauthorized, responses.UserResponse{Status: http.StatusUnauthorized, Message: "error", Data: &echo.Map{"data": "Invalid credentials"}})
+			return c.JSON(http.StatusUnauthorized, responses.ErrorResponse{Status: http.StatusUnauthorized, Message: "error", Error: "Invalid credentials"})
 		}
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	// Check if the email is verified
@@ -174,20 +173,20 @@ func UserLogin(c echo.Context) error {
 	// Compare hashed password
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginData.Password))
 	if err != nil {
-		return c.JSON(http.StatusUnauthorized, responses.UserResponse{Status: http.StatusUnauthorized, Message: "error", Data: &echo.Map{"data": "Invalid credentials"}})
+		return c.JSON(http.StatusUnauthorized, responses.ErrorResponse{Status: http.StatusUnauthorized, Message: "error", Error: "Invalid credentials"})
 	}
 
-	token, err := generateJwtToken(user.Id.Hex())
+	token, refreshToken, err := GenerateJwtToken(user.Id.Hex())
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
-	return c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &echo.Map{"token": token}})
+	return c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &echo.Map{"token": token,"refreshToken":refreshToken, "email": loginData.Email, "id": user.Id}})
 }
 
 func VerifyEmail(c echo.Context) error {
 	token := c.Param("token")
 	if token == "" {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": "Token is required"}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: "Token is required"})
 	}
 
 	// Validate the token and update the user's verification status in the database
@@ -198,48 +197,60 @@ func VerifyEmail(c echo.Context) error {
 	key := fmt.Sprintf("verification:%s", token)
 	verificationDetails, err := redisClient.HGetAll(ctx, key).Result()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	email, ok := verificationDetails["email"]
 	if !ok {
-		return c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: &echo.Map{"data": "Invalid verification token"}})
+		return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: "Invalid verification token"})
 	}
 
 	// Update the user's verification status in the database
 	userUpdate := bson.M{"$set": bson.M{"is_verified": true}}
 	_, err = userCollection.UpdateOne(ctx, bson.M{"email": email}, userUpdate)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	// Optionally, remove the verification details from Redis after successful verification
 	err = redisClient.Del(ctx, key).Err()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
+		return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
 	}
 
 	return c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &echo.Map{"data": "Email verified successfully"}})
 }
 
 // This needs to be moved into the utils folder
-func generateJwtToken(userID string) (string, error) {
-	// Create a new JWT token
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["sub"] = userID
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // Token expires in 24 hours
+func GenerateJwtToken(userID string) (string, string, error) {
+    // Create a new JWT token for access token
+    accessToken := jwt.New(jwt.SigningMethodHS256)
+    accessClaims := accessToken.Claims.(jwt.MapClaims)
+    accessClaims["sub"] = userID
+    accessClaims["exp"] = time.Now().Add(time.Minute * 5).Unix() // Access token expires in 5 minutes
 
-	// Sign the token with a secret key
-	tokenString, err := token.SignedString(jwtSecret)
-	if err != nil {
-		return "", err
-	}
+    // Sign the access token with a secret key
+    accessTokenString, err := accessToken.SignedString(jwtSecret)
+    if err != nil {
+        return "", "", err
+    }
 
-	return tokenString, nil
+    // Create a new JWT token for refresh token
+    refreshToken := jwt.New(jwt.SigningMethodHS256)
+    refreshClaims := refreshToken.Claims.(jwt.MapClaims)
+    refreshClaims["sub"] = userID
+    refreshClaims["exp"] = time.Now().Add(time.Hour * 24 * 7).Unix() // Refresh token expires in 7 days
+
+    // Sign the refresh token with a secret key
+    refreshTokenString, err := refreshToken.SignedString(jwtSecret)
+    if err != nil {
+        return "", "", err
+    }
+
+    return accessTokenString, refreshTokenString, nil
 }
 
-func generateVerificationToken() (string, error) {
+func GenerateVerificationToken() (string, error) {
 	randomBytes := make([]byte, 32)
 	_, err := rand.Read(randomBytes)
 	if err != nil {
@@ -250,10 +261,10 @@ func generateVerificationToken() (string, error) {
 	return token, nil
 }
 
-func sendVerificationEmailFunc(email, username, verificationToken string) error {
+func SendVerificationEmailFunc(email, username, verificationToken string) error {
 
 	if verificationToken == "" {
-		newToken, err := generateVerificationToken()
+		newToken, err := GenerateVerificationToken()
 		if err != nil {
 			return err
 		}
@@ -283,14 +294,14 @@ func sendVerificationEmailFunc(email, username, verificationToken string) error 
 		return err
 	}
 
-	err = sendGomail("/email.html", verificationToken, email, username)
+	err = SendGomail("/email.html", verificationToken, email, username)
 	if err != nil {
 		return err
 	}
 
 	return nil
 }
-func sendGomail(path, token, email, username string) error {
+func SendGomail(path, token, email, username string) error {
 	var body bytes.Buffer
 	t, err := template.ParseFiles("templates/email.html")
 
@@ -329,3 +340,50 @@ func sendGomail(path, token, email, username string) error {
 
 	return nil
 }
+
+// TokenRefresh function
+func TokenRefresh(c echo.Context) error {
+    refreshToken := c.FormValue("refresh_token")
+    if refreshToken == "" {
+        return c.JSON(http.StatusBadRequest, responses.ErrorResponse{Status: http.StatusBadRequest, Message: "error", Error: "Refresh token is required"})
+    }
+
+    // Validate and refresh the access token using the provided refresh token
+    userID, err := ValidateAndRefreshToken(refreshToken)
+    if err != nil {
+        return c.JSON(http.StatusUnauthorized, responses.ErrorResponse{Status: http.StatusUnauthorized, Message: "error", Error: "Invalid refresh token"})
+    }
+
+    // Generate a new access token (optional: also generate a new refresh token)
+    newAccessToken, _, err := GenerateJwtToken(userID)
+    if err != nil {
+        return c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Status: http.StatusInternalServerError, Message: "error", Error: err.Error()})
+    }
+
+    return c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &echo.Map{"token": newAccessToken}})
+}
+// validateAndRefreshToken function
+func ValidateAndRefreshToken(refreshToken string) (string, error) {
+    // Validate the refresh token
+    token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
+        return jwtSecret, nil
+    })
+
+    if err != nil || !token.Valid {
+        return "", err
+    }
+
+    claims, ok := token.Claims.(jwt.MapClaims)
+    if !ok {
+        return "", fmt.Errorf("Invalid claims format in refresh token")
+    }
+
+    // Extract user ID from claims
+    userID, ok := claims["sub"].(string)
+    if !ok {
+        return "", fmt.Errorf("Invalid user ID format in refresh token")
+    }
+
+    return userID, nil
+}
+

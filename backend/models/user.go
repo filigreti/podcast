@@ -27,3 +27,9 @@ type RedisVerification struct {
 	VerificationToken string
 	IsVerified        bool
 }
+
+type Favorites struct {
+    UserID          primitive.ObjectID   `bson:"userID" json:"userID"`
+    FavoriteEpisodes []primitive.ObjectID `bson:"favoriteEpisodes" json:"favoriteEpisodes"`
+    FavoritePodcasts []primitive.ObjectID `bson:"favoritePodcasts" json:"favoritePodcasts"`
+}

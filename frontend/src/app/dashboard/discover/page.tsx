@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import blackPodcast from "@/images/podcast.jpg";
 import greenPodcast from "@/images/greenpodcast.png";
@@ -5,9 +6,11 @@ import yellowPodcast from "@/images/yellowpodcast.png";
 import whitePodcast from "@/images/whitepodcast.png";
 import moneyPodcast from "@/images/moneypodcast.png";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 const Discover = () => {
-  const colors = [1, 2, 3, 4, 5];
+  const { data: session } = useSession();
+  console.log(session, "please");
   return (
     <div>
       <div className="grid lg:grid-cols-10 xl:grid-cols-10 2xl:grid-cols-11  gap-4">
@@ -155,17 +158,20 @@ const Discover = () => {
               .fill()
               .map((_, index) => (
                 <>
-                  <div className=" w-4">{index + 1}</div>
-                  <div className="col-span-3">
-                    <div className="pt-3">
-                      <p className=" text-sm font-bold text-white ">
-                        Beautiful mindset in our life
-                      </p>
-                      <p className=" text-[0.65rem] text-gray-400 pt-[1px]">
-                        Tom Heart Smith
-                      </p>
+                  <div className="col-start-1 col-span-4 flex items-center ">
+                    {index + 1}
+                    <div className=" ">
+                      <div className="pt-3 ml-8 text-left">
+                        <p className=" text-sm font-bold text-white ">
+                          Beautiful mindset in our life
+                        </p>
+                        <p className=" text-[0.65rem] text-gray-400 pt-[1px]">
+                          Tom Heart Smith
+                        </p>
+                      </div>
                     </div>
                   </div>
+
                   <div className="col-span-2 col-start-5">
                     <p className=" text-[0.75rem] text-gray-400 pt-[1px]">
                       Motivation
